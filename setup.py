@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='Arquivo de Instalação',
+    name='planilha',
     version='0.1',
     scripts=['planilha.py'],
 )
