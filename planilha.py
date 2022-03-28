@@ -7,12 +7,10 @@ from datetime import timedelta as td
 from gspread_dataframe import get_as_dataframe, set_with_dataframe
 from oauth2client.client import GoogleCredentials
 
-import os
-
 class Planilha():
-    def __init__(self, key=None, name=None):
+    def __init__(self, key=None, name=None, oauth = True):
         if key == None:
-            gc = connect()
+            gc = connect(oauth=oauth)
             gc.create(name)
             self.key = gc.open(name).id
         else:
@@ -35,24 +33,23 @@ class Planilha():
 
     def open(self, tab=None, write=False, sheets=False):
         "Fazer ele abrir a primeira aba se não tiver tab"
-        with open('/content/drive/MyDrive/Colab Notebooks/adc.json') as file:
-            gc = connect()
-            sh = gc.open_by_key(self.key)
+        gc = connect()
+        sh = gc.open_by_key(self.key)
 
-            if sheets:
-                return sh
+        if sheets:
+            return sh
 
-            if tab:
-                if not tab in [el.title for el in sh.worksheets()]:
-                    if write:
-                        print(f'Criando aba "{tab}"')
-                        sh.add_worksheet(tab, 1000, 26)
-                    else:
-                        abas = [el.title for el in sh.worksheets()]
-                        raise ValueError(f'Não existe uma aba "{tab}" no documento.\nAs abas atuais são:\n- '+ "\n- ".join(abas))
-                wk = sh.worksheet(tab)
-            else:
-                wk = sh.get_worksheet(0)
+        if tab:
+            if not tab in [el.title for el in sh.worksheets()]:
+                if write:
+                    print(f'Criando aba "{tab}"')
+                    sh.add_worksheet(tab, 1000, 26)
+                else:
+                    abas = [el.title for el in sh.worksheets()]
+                    raise ValueError(f'Não existe uma aba "{tab}" no documento.\nAs abas atuais são:\n- '+ "\n- ".join(abas))
+            wk = sh.worksheet(tab)
+        else:
+            wk = sh.get_worksheet(0)
         return wk
 
     def read(self, tab=None, raw=False, **kwargs):
@@ -110,8 +107,8 @@ class Planilha():
         }
         self.write('log',pd.DataFrame([dados]), include_index=False, append=True)
 
-def search(query):
-    gc = connect()
+def search(query, oauth=True):
+    gc = connect(oauth=oauth)
 
     query = query.lower()
     
@@ -122,9 +119,9 @@ def search(query):
         for result in results: 
             print(f'Nome:\t{result["nome"]}\nId:\t{result["id"]}')
 
-def connect(oauth=False):
+def connect(oauth=True):
     if not oauth: 
-        adc_path = '/content/drive/MyDrive/Colab Notebooks/adc.json'
+        adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
         with open(adc_path) as file:
             gc = gspread.authorize(GoogleCredentials.from_json(file.read()))
 
