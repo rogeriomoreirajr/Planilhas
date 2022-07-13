@@ -109,13 +109,13 @@ class Planilha():
         self.write('log',pd.DataFrame([dados]), include_index=False, append=True)
 
     def connect(self):
-    if not self.oauth: 
-        adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
-        with open(adc_path) as file:
-            gc = gspread.authorize(GoogleCredentials.from_json(file.read()))
+        if not self.oauth: 
+            adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
+            with open(adc_path) as file:
+                gc = gspread.authorize(GoogleCredentials.from_json(file.read()))
 
-    else:  gc = gspread.oauth()
-    return gc
+        else:  gc = gspread.oauth()
+        return gc
 
 
 # def search(query, oauth=True):
