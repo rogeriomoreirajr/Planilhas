@@ -11,7 +11,7 @@ class Planilha():
     def __init__(self, key=None, name=None, oauth = True):
         self.oauth = oauth
         if key == None:
-            gc = connect(oauth=oauth)
+            gc = self.connect(oauth=oauth)
             gc.create(name)
             self.key = gc.open(name).id
         else:
@@ -34,7 +34,7 @@ class Planilha():
 
     def open(self, tab=None, write=False, sheets=False):
         "Fazer ele abrir a primeira aba se não tiver tab"
-        gc = connect()
+        gc = self.connect()
         sh = gc.open_by_key(self.key)
 
         if sheets:
