@@ -108,19 +108,7 @@ class Planilha():
         }
         self.write('log',pd.DataFrame([dados]), include_index=False, append=True)
 
-def search(query, oauth=True):
-    gc = connect(oauth=oauth)
-
-    query = query.lower()
-    
-    results = [{'nome': el.title, 'id':el.id} for el in gc.openall() if re.search(query, el.title.lower())]
-    if len(results) > 0:
-        intro = 'Planilhas encontradas' if len(results) > 1 else 'Planilha encontrada'
-        print(intro+':\n')
-        for result in results: 
-            print(f'Nome:\t{result["nome"]}\nId:\t{result["id"]}')
-
-def connect():
+    def connect(self):
     if not self.oauth: 
         adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
         with open(adc_path) as file:
@@ -128,3 +116,16 @@ def connect():
 
     else:  gc = gspread.oauth()
     return gc
+
+
+# def search(query, oauth=True):
+#     gc = connect(oauth=oauth)
+
+#     query = query.lower()
+    
+#     results = [{'nome': el.title, 'id':el.id} for el in gc.openall() if re.search(query, el.title.lower())]
+#     if len(results) > 0:
+#         intro = 'Planilhas encontradas' if len(results) > 1 else 'Planilha encontrada'
+#         print(intro+':\n')
+#         for result in results: 
+#             print(f'Nome:\t{result["nome"]}\nId:\t{result["id"]}')
