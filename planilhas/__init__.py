@@ -9,6 +9,7 @@ from oauth2client.client import GoogleCredentials
 
 class Planilha():
     def __init__(self, key=None, name=None, oauth = True):
+        self.oauth = oauth
         if key == None:
             gc = connect(oauth=oauth)
             gc.create(name)
@@ -16,7 +17,7 @@ class Planilha():
         else:
             self.key = key
 
-        self.sh = self.open(sheets=True, oauth=oauth)
+        self.sh = self.open(sheets=True)
         # sh = self.open(sheets=True)
         self.abas = [el.title for el in sh.worksheets()]
     
@@ -31,9 +32,9 @@ class Planilha():
 
         return mensagem
 
-    def open(self, tab=None, write=False, sheets=False, oauth=oauth):
+    def open(self, tab=None, write=False, sheets=False):
         "Fazer ele abrir a primeira aba se não tiver tab"
-        gc = connect(oauth=oauth)
+        gc = connect()
         sh = gc.open_by_key(self.key)
 
         if sheets:
@@ -119,11 +120,11 @@ def search(query, oauth=True):
         for result in results: 
             print(f'Nome:\t{result["nome"]}\nId:\t{result["id"]}')
 
-def connect(oauth=oauth):
-    if not oauth: 
+def connect():
+    if not self.oauth: 
         adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
         with open(adc_path) as file:
             gc = gspread.authorize(GoogleCredentials.from_json(file.read()))
 
-    else: gc = gspread.oauth()
+    else:  gc = gspread.oauth()
     return gc
