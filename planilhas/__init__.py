@@ -119,7 +119,7 @@ def search(query, oauth=True):
         for result in results: 
             print(f'Nome:\t{result["nome"]}\nId:\t{result["id"]}')
 
-def connect(oauth=True):
+def connect(oauth=oauth):
     if not oauth: 
         adc_path = 'C:/Users/rogerio.junior/OneDrive/jupyter/.apoio/planilhas-344512-622259d0ca23.json'
         with open(adc_path) as file:
