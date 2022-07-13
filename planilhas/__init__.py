@@ -16,8 +16,8 @@ class Planilha():
         else:
             self.key = key
 
-        self.sh = self.open(sheets=True)
-        sh = self.open(sheets=True)
+        self.sh = self.open(sheets=True, oauth=oauth)
+        # sh = self.open(sheets=True)
         self.abas = [el.title for el in sh.worksheets()]
     
     def __repr__(self):
@@ -33,7 +33,7 @@ class Planilha():
 
     def open(self, tab=None, write=False, sheets=False):
         "Fazer ele abrir a primeira aba se não tiver tab"
-        gc = connect()
+        gc = connect(oauth=oauth)
         sh = gc.open_by_key(self.key)
 
         if sheets:
