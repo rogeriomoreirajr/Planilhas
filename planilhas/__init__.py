@@ -31,7 +31,7 @@ class Planilha():
 
         return mensagem
 
-    def open(self, tab=None, write=False, sheets=False):
+    def open(self, tab=None, write=False, sheets=False, oauth=oauth):
         "Fazer ele abrir a primeira aba se não tiver tab"
         gc = connect(oauth=oauth)
         sh = gc.open_by_key(self.key)
